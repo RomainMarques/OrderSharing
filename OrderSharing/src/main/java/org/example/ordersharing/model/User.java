@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-@Document
+@Document(collection = "users")
 @Getter
 @Setter
 @AllArgsConstructor
 public class User {
     @Id
-    private int id;
+    private String id;
     private String name;
     private String role;
 }
