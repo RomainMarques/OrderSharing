@@ -1,9 +1,15 @@
-version: '3'
+version: '3.7'
 
 services:
-  mongodb:
-    build: .
-    container_name: order_db
-    image: order_db
-    ports:
-      - "27017:27017"
+    mongodb:
+        image: mongo:latest
+        container_name: order_db
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root
+            MONGO_INITDB_DATABASE: orderdb
+        ports:
+            - 27017:27017
+        volumes:
+            - ./init.js:/docker-entrypoint-initdb.d/init.js:ro
