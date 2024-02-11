@@ -1,6 +1,8 @@
 package org.example.ordersharing;
 
+import org.example.ordersharing.model.Order;
 import org.example.ordersharing.model.User;
+import org.example.ordersharing.repository.OrderRepository;
 import org.example.ordersharing.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +19,9 @@ public class OrderSharingApplication {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    OrderRepository orderRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(OrderSharingApplication.class, args);
     }
@@ -26,9 +31,13 @@ public class OrderSharingApplication {
         return String.format("Hello %s!", name);
     }
 
-    @GetMapping("/users")
-    public List<User> list() {
-
+    @GetMapping("/get-users")
+    public List<User> listUsers() {
         return userRepository.findAll();
+    }
+
+    @GetMapping("/get-orders")
+    public List<Order> listOrders() {
+        return orderRepository.findAll();
     }
 }

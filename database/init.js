@@ -1,4 +1,4 @@
-db.createCollection('park');
+db.createCollection('parks');
 db.park.insertMany([
     { name: 'A', location: 'A' },
     { name: 'B', location: 'B' },
@@ -15,14 +15,14 @@ db.users.insertMany([
 
 db.createCollection('products');
 db.products.insertMany([
-    { name: 'Fries', price: 100, park: 'A' },
-    { name: 'Coca Cola', price: 200, park: 'A'},
-    { name: 'Burger', price: 300, park: 'B' },
+    { name: 'Fries', price: 100, parkName: 'A' },
+    { name: 'Coca Cola', price: 200, parkName: 'A'},
+    { name: 'Burger', price: 300, parkName: 'B' },
 ]);
 
 db.createCollection('orders');
 db.orders.insertMany([
-    { customer: 'John', park: 'A', product: ['Fries', 'Coca Cola'] },
-    { customer: 'John', park: 'B', product: ['Burger'] },
+    { curstomerName: 'John', parkName: 'A', productList: ['Fries', 'Coca Cola'] },
+    { curstomerName: 'John', parkName: 'B', productList: ['Burger'] },
 ]);
 
