@@ -4,6 +4,7 @@ import org.example.ordersharing.model.Order;
 import org.example.ordersharing.model.User;
 import org.example.ordersharing.repository.OrderRepository;
 import org.example.ordersharing.repository.UserRepository;
+import org.example.ordersharing.utils.HttpError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -39,5 +40,13 @@ public class OrderSharingApplication {
     @GetMapping("/get-orders")
     public List<Order> listOrders() {
         return orderRepository.findAll();
+    }
+
+    @GetMapping("/get-orders-by-park")
+    public List<Order> listOrdersByPark(@RequestParam(value = "parkName", defaultValue = HttpError.NOT_SPECIFIED) String parkName) {
+        if (parkName.equals(HttpError.NOT_SPECIFIED)) {
+            throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
+        }
+        return orderRepository.findByParkName(parkName);
     }
 }
