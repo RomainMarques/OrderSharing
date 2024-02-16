@@ -18,4 +18,6 @@ public class Order {
     private String curstomerName;
     private String parkName;
     private List<String> productList;
+    private double totalPrice;
+    private double toPay;
 }

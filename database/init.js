@@ -22,7 +22,7 @@ db.products.insertMany([
 
 db.createCollection('orders');
 db.orders.insertMany([
-    { curstomerName: 'John', parkName: 'A', productList: ['Fries', 'Coca Cola'] },
-    { curstomerName: 'John', parkName: 'B', productList: ['Burger'] },
+    { curstomerName: 'John', parkName: 'A', productList: ['Fries', 'Coca Cola'], totalPrice: 300, toPay: 300 },
+    { curstomerName: 'John', parkName: 'B', productList: ['Burger'], totalPrice: 200, toPay: 200 },
 ]);
 

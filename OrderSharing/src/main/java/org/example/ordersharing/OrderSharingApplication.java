@@ -1,5 +1,6 @@
 package org.example.ordersharing;
 
+import org.example.ordersharing.controller.OrderController;
 import org.example.ordersharing.model.Order;
 import org.example.ordersharing.model.User;
 import org.example.ordersharing.repository.OrderRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,5 +50,19 @@ public class OrderSharingApplication {
             throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
         }
         return orderRepository.findByParkName(parkName);
+    }
+
+    @PostMapping("/pay-order")
+    public String payOrder(@RequestParam(value = "orderId", defaultValue = HttpError.NOT_SPECIFIED) String orderId,
+                           @RequestParam(value = "amount", defaultValue = "0") String amount) {
+        if (orderId.equals(HttpError.NOT_SPECIFIED)) {
+            throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
+        }
+        double sum = Double.parseDouble(amount);
+        if (sum <= 0) {
+            throw new IllegalArgumentException(HttpError.ERROR_AMOUNT_SPECIFIED);
+        }
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException(HttpError.NOT_FOUND));
+        return OrderController.payOrder(order, sum, orderRepository);
     }
 }
