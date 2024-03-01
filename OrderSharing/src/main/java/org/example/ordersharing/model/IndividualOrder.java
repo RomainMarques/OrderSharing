@@ -8,14 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "parks")
+@Document(collection = "individualOrders")
 @Getter
 @Setter
 @AllArgsConstructor
-public class Park {
+public class IndividualOrder {
     @Id
     private String id;
-    private String name;
-    private String location;
-    private List<Alley> alleys;
+    private String customerName;
+    private List<String> productList; // Basket ?
+    private double totalPrice;
 }

@@ -8,16 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "orders")
+@Document(collection = "alleys")
 @Getter
 @Setter
 @AllArgsConstructor
-public class Order {
+public class Alley {
     @Id
     private String id;
-    private String curstomerName;
-    private String parkName;
-    private List<String> productList;
-    private double totalPrice;
-    private double toPay;
+    private int number;
+    private String QRCode;
+    private List<SharedOrder> orders; // Orders linked to the specified alley
 }
