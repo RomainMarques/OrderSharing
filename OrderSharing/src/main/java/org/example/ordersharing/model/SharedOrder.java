@@ -18,6 +18,6 @@ public class SharedOrder {
     private double totalPrice;
     private double toPay;
     private String parkName;
-    private Alley alley;
+    private String alleyNumber;
     private List<IndividualOrder> individualOrders; // Global basket with fusion of all basket
 }

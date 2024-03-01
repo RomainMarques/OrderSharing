@@ -1,5 +1,5 @@
 db.createCollection('parks');
-db.park.insertMany([
+db.parks.insertMany([
     { name: 'A', location: 'A' },
     { name: 'B', location: 'B' },
     { name: 'C', location: 'C' },
@@ -19,11 +19,19 @@ db.products.insertMany([
     { name: 'Burger', price: 300, parkName: 'B' },
 ]);
 
-db.createCollection('orders');
-db.orders.insertMany([
-    { curstomerName: 'John', parkName: 'A', productList: ['Fries', 'Coca Cola'], totalPrice: 300, toPay: 300 },
-    { curstomerName: 'John', parkName: 'B', productList: ['Burger'], totalPrice: 200, toPay: 200 },
+db.createCollection('individualOrders');
+db.individualOrders.insertMany([
+    { "_id": "FOUFOU", customerName: 'John', productList: ['Fries', 'Coca Cola'], totalPrice: 300 },
+    { "_id": "FIFI", customerName: 'John', productList: ['Burger'], totalPrice: 200 },
 ]);
+
+db.createCollection('sharedOrders');
+db.sharedOrders.insertOne(
+    {
+        totalPrice: 500, toPay: 500, parkName: 'A', alleyNumber: 1,
+        individualOrders: [{"_id": "FOUFOU"}, {"_id": "FIFI"}],
+    }
+);
 
 db.createCollection('alleys');
 db.alleys.insertMany([
