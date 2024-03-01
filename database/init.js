@@ -29,7 +29,10 @@ db.createCollection('sharedOrders');
 db.sharedOrders.insertOne(
     {
         totalPrice: 500, toPay: 500, parkName: 'A', alleyNumber: 1,
-        individualOrders: [{"_id": "FOUFOU"}, {"_id": "FIFI"}],
+        individualOrders: [
+            {"$ref" : "individualOrders", "$id": "FOUFOU"},
+            {"$ref" : "individualOrders", "$id": "FIFI"}
+        ],
     }
 );
 
