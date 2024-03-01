@@ -20,7 +20,7 @@ db.products.insertMany([
     { name: 'Burger', price: 300, parkName: 'B' },
 ]);
 
-db.createCollection('orders');
+db.createCollection('individualOrders');
 db.orders.insertMany([
     { curstomerName: 'John', parkName: 'A', productList: ['Fries', 'Coca Cola'], totalPrice: 300, toPay: 300 },
     { curstomerName: 'John', parkName: 'B', productList: ['Burger'], totalPrice: 200, toPay: 200 },
