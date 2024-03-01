@@ -6,8 +6,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Document(collection = "alleys")
 @Getter
 @Setter
@@ -17,5 +15,5 @@ public class Alley {
     private String id;
     private int number;
     private String QRCode;
-    private List<SharedOrder> orders; // Orders linked to the specified alley
+   // private List<SharedOrder> sharedOrders; // Orders linked to the specified alley
 }
