@@ -5,9 +5,9 @@ import org.example.ordersharing.repository.SharedOrderRepository;
 import org.example.ordersharing.sender.Notification;
 
 public class OrderController {
-    public static String placeOrder(String customerName, int parkId, SharedOrderRepository orderRepo, Notification notification, int alleyNumber) {
-
-    }
+//    public static String placeOrder(String customerName, int parkId, SharedOrderRepository orderRepo, Notification notification, int alleyNumber) {
+//
+//    }
     public static boolean isOrderPaid(SharedOrder order) {
         return order.getToPay() == 0;
     }
