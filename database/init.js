@@ -1,5 +1,5 @@
 db.createCollection('parks');
-db.park.insertMany([
+db.parks.insertMany([
     { name: 'A', location: 'A' },
     { name: 'B', location: 'B' },
     { name: 'C', location: 'C' },
