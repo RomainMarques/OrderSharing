@@ -1,9 +1,9 @@
 package org.example.ordersharing;
 
 import org.example.ordersharing.controller.OrderController;
-import org.example.ordersharing.model.Order;
+import org.example.ordersharing.model.SharedOrder;
 import org.example.ordersharing.model.User;
-import org.example.ordersharing.repository.OrderRepository;
+import org.example.ordersharing.repository.SharedOrderRepository;
 import org.example.ordersharing.repository.UserRepository;
 import org.example.ordersharing.sender.Notification;
 import org.example.ordersharing.utils.HttpError;
@@ -24,7 +24,7 @@ public class OrderSharingApplication {
     UserRepository userRepository;
 
     @Autowired
-    OrderRepository orderRepository;
+    SharedOrderRepository sharedOrderRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(OrderSharingApplication.class, args);
@@ -41,16 +41,16 @@ public class OrderSharingApplication {
     }
 
     @GetMapping("/get-orders")
-    public List<Order> listOrders() {
-        return orderRepository.findAll();
+    public List<SharedOrder> listOrders() {
+        return sharedOrderRepository.findAll();
     }
 
     @GetMapping("/get-orders-by-park")
-    public List<Order> listOrdersByPark(@RequestParam(value = "parkName", defaultValue = HttpError.NOT_SPECIFIED) String parkName) {
+    public List<SharedOrder> listOrdersByPark(@RequestParam(value = "parkName", defaultValue = HttpError.NOT_SPECIFIED) String parkName) {
         if (parkName.equals(HttpError.NOT_SPECIFIED)) {
             throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
         }
-        return orderRepository.findByParkName(parkName);
+        return sharedOrderRepository.findByParkName(parkName);
     }
 
     @PostMapping("/pay-order")
@@ -63,11 +63,11 @@ public class OrderSharingApplication {
         if (sum <= 0) {
             throw new IllegalArgumentException(HttpError.ERROR_AMOUNT_SPECIFIED);
         }
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException(HttpError.NOT_FOUND));
+        SharedOrder order = sharedOrderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException(HttpError.NOT_FOUND));
         if(order == null) {
             throw new IllegalArgumentException(HttpError.NOT_FOUND);
         }
         Notification notification = message -> System.out.println("Notification: " + message);
-        return OrderController.payOrder(order, sum, orderRepository, notification);
+        return OrderController.payOrder(order, sum, sharedOrderRepository, notification);
     }
 }
