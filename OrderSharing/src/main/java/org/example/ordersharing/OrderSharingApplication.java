@@ -5,6 +5,7 @@ import org.example.ordersharing.model.Order;
 import org.example.ordersharing.model.User;
 import org.example.ordersharing.repository.OrderRepository;
 import org.example.ordersharing.repository.UserRepository;
+import org.example.ordersharing.sender.Notification;
 import org.example.ordersharing.utils.HttpError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -63,6 +64,10 @@ public class OrderSharingApplication {
             throw new IllegalArgumentException(HttpError.ERROR_AMOUNT_SPECIFIED);
         }
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException(HttpError.NOT_FOUND));
-        return OrderController.payOrder(order, sum, orderRepository);
+        if(order == null) {
+            throw new IllegalArgumentException(HttpError.NOT_FOUND);
+        }
+        Notification notification = message -> System.out.println("Notification: " + message);
+        return OrderController.payOrder(order, sum, orderRepository, notification);
     }
 }
