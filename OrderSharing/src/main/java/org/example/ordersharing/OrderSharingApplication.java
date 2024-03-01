@@ -1,8 +1,10 @@
 package org.example.ordersharing;
 
 import org.example.ordersharing.controller.OrderController;
+import org.example.ordersharing.model.IndividualOrder;
 import org.example.ordersharing.model.SharedOrder;
 import org.example.ordersharing.model.User;
+import org.example.ordersharing.repository.IndividualOrderRepository;
 import org.example.ordersharing.repository.SharedOrderRepository;
 import org.example.ordersharing.repository.UserRepository;
 import org.example.ordersharing.sender.Notification;
@@ -22,9 +24,10 @@ import java.util.List;
 public class OrderSharingApplication {
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     SharedOrderRepository sharedOrderRepository;
+    @Autowired
+    IndividualOrderRepository individualOrderRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(OrderSharingApplication.class, args);
@@ -41,7 +44,12 @@ public class OrderSharingApplication {
     }
 
     @GetMapping("/get-orders")
-    public List<SharedOrder> listOrders() {
+    public List<IndividualOrder> listIndividualOrders() {
+        return individualOrderRepository.findAll();
+    }
+
+    @GetMapping("/get-shared-orders")
+    public List<SharedOrder> listSharedOrders() {
         return sharedOrderRepository.findAll();
     }
 
