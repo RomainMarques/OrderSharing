@@ -19,5 +19,5 @@ public class SharedOrder {
     private double toPay;
     private String parkName;
     private Alley alley;
-    private List<IndividualOrder> individualOrders;
+    private List<IndividualOrder> individualOrders; // Global basket with fusion of all basket
 }

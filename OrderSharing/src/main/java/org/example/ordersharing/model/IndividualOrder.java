@@ -16,6 +16,6 @@ public class IndividualOrder {
     @Id
     private String id;
     private String customerName;
-    private List<String> productList; // Basket ?
+    private List<String> productList; // basket
     private double totalPrice;
 }
