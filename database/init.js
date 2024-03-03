@@ -14,9 +14,9 @@ db.users.insertMany([
 
 db.createCollection('products');
 db.products.insertMany([
-    { "_id": "ID_TEST_PRODUCT_FRIES", name: 'Fries', price: 100, parkName: 'A' },
-    { "_id": "ID_TEST_PRODUCT_COCA", name: 'Coca Cola', price: 200, parkName: 'A'},
-    { "_id": "ID_TEST_PRODUCT_BURGER", name: 'Burger', price: 300, parkName: 'B' },
+    { "_id": "ID_TEST_PRODUCT_FRIES", name: 'Fries', price: 5.5, parkName: 'A' },
+    { "_id": "ID_TEST_PRODUCT_COCA", name: 'Coca Cola', price: 2.3, parkName: 'A'},
+    { "_id": "ID_TEST_PRODUCT_BURGER", name: 'Burger', price: 6, parkName: 'B' },
 ]);
 
 db.createCollection('individualOrders');
