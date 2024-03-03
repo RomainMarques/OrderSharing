@@ -76,7 +76,7 @@ public class OrderSharingApplication {
             return productRepository.findByParkName(parkName);
     }
 
-    @PostMapping("/pay-order")
+    @PostMapping("/pay-order-amount")
     public ResponseEntity<String> payOrder(@RequestParam(value = "orderId", defaultValue = HttpError.NOT_SPECIFIED) String orderId,
                            @RequestParam(value = "amount", defaultValue = "0") String amount) {
         if (orderId.equals(HttpError.NOT_SPECIFIED)) {
