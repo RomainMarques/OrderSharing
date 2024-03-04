@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SharedOrderRepository extends MongoRepository<SharedOrder, String> {
     List<SharedOrder> findByParkName(String parkName);
+    List<SharedOrder> findByAlleyNumber(String alleyNumber);
 }
