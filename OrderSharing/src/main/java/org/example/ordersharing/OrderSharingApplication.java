@@ -72,8 +72,7 @@ public class OrderSharingApplication {
     public List<Product> listProducts(@RequestParam(value = "parkName", defaultValue = HttpError.NOT_SPECIFIED) String parkName) {
         if(parkName.equals(HttpError.NOT_SPECIFIED))
             return productRepository.findAll();
-        else
-            return productRepository.findByParkName(parkName);
+        return productRepository.findByParkName(parkName);
     }
 
     @PostMapping("/pay-order-amount")
@@ -174,6 +173,8 @@ public class OrderSharingApplication {
 
     @GetMapping("/orders")
     public List<SharedOrder> getOrdersForAlley(@RequestParam(value = "alleyNumber", defaultValue = HttpError.NOT_SPECIFIED) String alleyNumber) {
+        if (alleyNumber.equals(HttpError.NOT_SPECIFIED))
+            return sharedOrderRepository.findAll();
         return sharedOrderRepository.findByAlleyNumber(alleyNumber);
     }
 }

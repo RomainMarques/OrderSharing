@@ -380,6 +380,31 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Order for an Alley",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/orders?alleyNumber=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "alleyNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
