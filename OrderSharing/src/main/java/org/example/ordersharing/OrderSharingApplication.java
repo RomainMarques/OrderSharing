@@ -171,4 +171,9 @@ public class OrderSharingApplication {
         }
         return OrderController.payOrder(order, individualOrder.getTotalPrice(), sharedOrderRepository, notification);
     }
+
+    @GetMapping("/orders")
+    public List<SharedOrder> getOrdersForAlley(@RequestParam(value = "alleyNumber", defaultValue = HttpError.NOT_SPECIFIED) String alleyNumber) {
+        return sharedOrderRepository.findByAlleyNumber(alleyNumber);
+    }
 }
