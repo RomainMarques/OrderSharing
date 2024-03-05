@@ -8,7 +8,7 @@ db.parks.insertMany([
 
 db.createCollection('users');
 db.users.insertMany([
-    { "_id": "ID_TEST_USER_JOHN", name: 'John', role: 'customer' },
+    { "_id": "ID_TEST_USER_JOHN", name: 'John', role: 'customer', email: 'romain.marques@efrei.net' },
     { "_id": "ID_TEST_USER_ALICE", name: 'Alice', role: 'agent', park: 'A' }
 ]);
 
