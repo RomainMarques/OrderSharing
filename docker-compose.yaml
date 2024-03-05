@@ -1,6 +1,14 @@
 version: '3.7'
 
 services:
+    spring-boot-app:
+        image: ordersharing-app
+        container_name: ordersharing-app
+        build: ./OrderSharing/.
+        ports:
+            - 8080:8080
+        depends_on:
+            - mongodb
     mongodb:
         image: mongo:latest
         container_name: order_db
@@ -12,4 +20,5 @@ services:
         ports:
             - 27017:27017
         volumes:
-            - ./init.js:/docker-entrypoint-initdb.d/init.js:ro
+            - ./database/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    
