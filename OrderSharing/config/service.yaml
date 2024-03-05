@@ -16,10 +16,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: orderdb
 spec:
   selector:
-    app: mongodb
+    app: orderdb
   ports:
     - name: http
       port: 27017

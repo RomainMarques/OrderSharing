@@ -16,25 +16,32 @@ spec:
         - name: orderapp
           image: antoiner956/order_app:v1
           imagePullPolicy: Always
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: orderdb
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: root
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: orderdb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: orderdb
   template:
     metadata:
       labels:
-        app: mongodb
+        app: orderdb
     spec:
       containers:
-        - name: mongodb
+        - name: orderdb
           image: mongo:latest
           imagePullPolicy: Always
 #          volumeMounts:
