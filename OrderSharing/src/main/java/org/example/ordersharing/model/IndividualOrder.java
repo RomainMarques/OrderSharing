@@ -15,7 +15,18 @@ import java.util.List;
 public class IndividualOrder {
     @Id
     private String id;
-    private String customerName;
+    private String customerEmail;
     private List<String> productList; // basket
     private double totalPrice;
+
+    public IndividualOrder(String customerEmail, double totalPrice, List<String> productList) {
+        this.id = String.valueOf(productList.hashCode());
+        this.customerEmail = customerEmail;
+        this.productList = productList;
+        this.totalPrice = totalPrice;
+    }
+
+    // ONLY USED FOR PLACE ORDER REQUEST
+    private String parkName;
+    private int alleyNumber;
 }

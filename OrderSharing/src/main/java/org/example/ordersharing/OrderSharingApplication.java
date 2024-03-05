@@ -109,6 +109,25 @@ public class OrderSharingApplication {
         return ResponseEntity.status(HttpStatus.OK).body("Product " + name + " was added to " + parkName + " park");
     }
 
+    @PostMapping("/order/place")
+    public ResponseEntity<String> placeOrder(@RequestBody IndividualOrder order) { // RequestBody as JSON here
+        System.out.println(order);
+        if(order.equals((HttpError.NOT_SPECIFIED)) ||
+                order.getProductList().isEmpty() ||
+                order.getParkName().equals(HttpError.NOT_SPECIFIED))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpError.NOT_SPECIFIED + ". You must have products, parkId, customerName and alleyNumber");
+
+        // Need to check presence of totalPrice and alleyNumber here
+
+        User customer = userRepository.findByEmail(order.getCustomerEmail()); // Get customer data based on its email
+        if(customer == null || customer.getName() == null) // Customer confirmation
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpError.NOT_FOUND + " for customer");
+
+        IndividualOrder indOrder = new IndividualOrder(customer.getEmail(), order.getTotalPrice(), order.getProductList());
+        individualOrderRepository.save(indOrder);
+        return ResponseEntity.status(HttpStatus.OK).body("Order of " + customer.getName() + " was added to " + order.getParkName() + " park");
+    }
+
     @PutMapping("/products/update")
     public ResponseEntity<String> updateProduct(@RequestParam(value = "id", defaultValue = HttpError.NOT_SPECIFIED) String id,
                                 @RequestParam(value = "name", defaultValue = HttpError.NOT_SPECIFIED) String name,
