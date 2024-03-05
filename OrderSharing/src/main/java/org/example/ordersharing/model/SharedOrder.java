@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -19,5 +20,6 @@ public class SharedOrder {
     private double toPay;
     private String parkName;
     private String alleyNumber;
-    private List<IndividualOrder> individualOrders; // Global basket with fusion of all basket
+    @DBRef
+    private List<IndividualOrder> individualOrders; // Global id of individual orders
 }
