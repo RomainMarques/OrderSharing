@@ -22,7 +22,7 @@ public class IndividualOrder {
     private double totalPrice;
 
     public IndividualOrder(String customerEmail, double totalPrice, List<String> productList) {
-        this.id = String.valueOf(productList.hashCode() + customerEmail.concat(String.valueOf(Math.random())).hashCode());
+        this.id = String.valueOf(productList.hashCode() + customerEmail.concat(String.valueOf(Math.random() * 9000)).hashCode());
         this.customerEmail = customerEmail;
         this.productList = productList;
         this.totalPrice = totalPrice;
