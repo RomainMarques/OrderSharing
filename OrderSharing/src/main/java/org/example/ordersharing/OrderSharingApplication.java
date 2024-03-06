@@ -122,40 +122,7 @@ public class OrderSharingApplication {
         if(customer == null || customer.getName() == null) // Customer confirmation
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpError.NOT_FOUND + " for customer");
 
-        IndividualOrder indOrder = new IndividualOrder(customer.getEmail(), order.getTotalPrice(), order.getProductList());
-        individualOrderRepository.save(indOrder);
-
-        // Add to SharedOrder
-        String alleyNumber = order.getAlleyNumber();
-        String parkName = order.getParkName();
-        List<SharedOrder> sharedOrders = sharedOrderRepository.findByParkName(parkName); // Get all sharedOrders of a park
-        if(!sharedOrders.isEmpty()) {
-            for (SharedOrder sOrder: sharedOrders) { // After getting all sharedOrders of a park, need to add the individualOrder of the correct alley of the park
-                if(Objects.equals(sOrder.getAlleyNumber(), alleyNumber)) {
-                    sOrder.getIndividualOrders().add(indOrder);
-
-                    // Increase totalPrice and toPay of SharedOrder
-                    sOrder.setTotalPrice(sOrder.getTotalPrice() + indOrder.getTotalPrice());
-                    sOrder.setToPay(sOrder.getToPay() + indOrder.getTotalPrice());
-
-                    sharedOrderRepository.save(sOrder); // Update the corresponding SharedOrder
-                    return ResponseEntity.status(HttpStatus.OK).body("Order of " + customer.getName() + " was added to park " + order.getParkName() + ", alley" + alleyNumber + ".");
-                }
-            }
-        }
-
-        // If we're still here, it means the sharedOrder doesn't exist. So we need to create it
-        SharedOrder newSharedOrder = new SharedOrder(
-                order.getTotalPrice(),
-                order.getTotalPrice(), // toPay = totalPrice when order is created
-                order.getParkName(),
-                alleyNumber
-        );
-
-        newSharedOrder.getIndividualOrders().add(indOrder);
-        sharedOrderRepository.save(newSharedOrder);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Order of " + customer.getName() + " was added to park " + order.getParkName() + ". Alley" + alleyNumber + ". \n NEW SHARED ORDER CREATED FOR THE PROVIDED ALLEY AND PARK");
+        return OrderController.placeOrder(customer, order.getParkName(), order, order.getAlleyNumber(), individualOrderRepository, sharedOrderRepository);
     }
 
     @PutMapping("/products/update")
@@ -220,7 +187,7 @@ public class OrderSharingApplication {
         return OrderController.payOrder(order, individualOrder.getTotalPrice(), sharedOrderRepository, notification);
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/orders-by-alley")
     public List<SharedOrder> getOrdersForAlley(@RequestParam(value = "alleyNumber", defaultValue = HttpError.NOT_SPECIFIED) String alleyNumber) {
         if (alleyNumber.equals(HttpError.NOT_SPECIFIED))
             return sharedOrderRepository.findAll();
