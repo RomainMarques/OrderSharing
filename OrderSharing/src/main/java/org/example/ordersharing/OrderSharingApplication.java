@@ -40,22 +40,22 @@ public class OrderSharingApplication {
         SpringApplication.run(OrderSharingApplication.class, args);
     }
 
-    @GetMapping("/get-users")
+    @GetMapping("/users")
     public List<User> listUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/get-orders")
+    @GetMapping("/orders")
     public List<IndividualOrder> listIndividualOrders() {
         return individualOrderRepository.findAll();
     }
 
-    @GetMapping("/get-shared-orders")
+    @GetMapping("/shared-orders")
     public List<SharedOrder> listSharedOrders() {
         return sharedOrderRepository.findAll();
     }
 
-    @PostMapping("/get-orders-by-park")
+    @PostMapping("/orders-by-park")
     public List<SharedOrder> listOrdersByPark(@RequestParam(value = "idAgent", defaultValue = HttpError.NOT_SPECIFIED) String idAgent,
             @RequestParam(value = "parkName", defaultValue = HttpError.NOT_SPECIFIED) String parkName) {
         if (parkName.equals(HttpError.NOT_SPECIFIED) || idAgent.equals(HttpError.NOT_SPECIFIED)) {
