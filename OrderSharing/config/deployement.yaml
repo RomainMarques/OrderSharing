@@ -16,13 +16,11 @@ spec:
         - name: orderapp
           image: antoiner956/order_app:v1
           imagePullPolicy: Always
-          env:
-            - name: MONGO_INITDB_DATABASE
-              value: orderdb
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: root
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: root
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
 
 ---
 
@@ -42,8 +40,21 @@ spec:
     spec:
       containers:
         - name: orderdb
-          image: mongo:latest
+          image: antoiner956/orderdb:latest
           imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: orderdb
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: root
 #          volumeMounts:
 #            - name: mongodb-data
 #              mountPath: /data/db
