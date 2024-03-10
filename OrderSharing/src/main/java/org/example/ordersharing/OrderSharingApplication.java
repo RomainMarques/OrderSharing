@@ -202,4 +202,29 @@ public class OrderSharingApplication {
 
         return catalogRepository.findByQRCode(QRCode).getProducts(); // Only returns the products of the given catalog
     }
+
+    @GetMapping("/get-paid-amount")
+    public double getPaidAmount(@RequestParam(value = "orderId", defaultValue = HttpError.NOT_SPECIFIED) String orderId) {
+        if (orderId.equals(HttpError.NOT_SPECIFIED)) {
+            throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
+        }
+        SharedOrder order = sharedOrderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException(HttpError.NOT_FOUND));
+        if(order == null) {
+            throw new IllegalArgumentException(HttpError.NOT_FOUND);
+        }
+        return order.getTotalPrice() - order.getToPay();
+    }
+
+    @PostMapping("/reset-order")
+    public String resetOrder(@RequestParam(value = "orderId", defaultValue = HttpError.NOT_SPECIFIED) String orderId) {
+        if (orderId.equals(HttpError.NOT_SPECIFIED)) {
+            throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
+        }
+        SharedOrder order = sharedOrderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException(HttpError.NOT_FOUND));
+        if(order == null) {
+            throw new IllegalArgumentException(HttpError.NOT_FOUND);
+        }
+        return OrderController.payOrder(order, order.getToPay(), sharedOrderRepository, notification);
+    }
+    
 }
