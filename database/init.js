@@ -69,8 +69,7 @@ db.catalogs.insertOne(
         parkName: 'A',
         products: [
             {"$ref": "products", "$id": "ID_TEST_PRODUCT_FRIES"},
-            {"$ref": "products", "$id": "ID_TEST_PRODUCT_COCA"},
-            {"$ref": "products", "$id": "ID_TEST_PRODUCT_BURGER"}
+            {"$ref": "products", "$id": "ID_TEST_PRODUCT_COCA"}
         ]
     }
 )

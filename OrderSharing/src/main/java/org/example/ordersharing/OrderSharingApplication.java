@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 @RestController
@@ -33,6 +32,8 @@ public class OrderSharingApplication {
     ProductRepository productRepository;
     @Autowired
     ParkRepository parkRepository;
+    @Autowired
+    CatalogRepository catalogRepository;
     Logger logger = Logger.getLogger(getClass().getName());
     Notification notification = message -> logger.info(() -> "Notification: " + message);
 
@@ -192,5 +193,13 @@ public class OrderSharingApplication {
         if (alleyNumber.equals(HttpError.NOT_SPECIFIED))
             return sharedOrderRepository.findAll();
         return sharedOrderRepository.findByAlleyNumber(alleyNumber);
+    }
+
+    @GetMapping("/catalog")
+    public List<Product> getProductsForCatalog(@RequestParam(value = "qrcode", defaultValue = HttpError.NOT_SPECIFIED) String QRCode) {
+        if (QRCode.equals(HttpError.NOT_SPECIFIED))
+            throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
+
+        return catalogRepository.findByQRCode(QRCode).getProducts(); // Only returns the products of the given catalog
     }
 }
