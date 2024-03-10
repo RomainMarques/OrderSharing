@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,6 +32,8 @@ public class OrderSharingApplication {
     ProductRepository productRepository;
     @Autowired
     ParkRepository parkRepository;
+    @Autowired
+    CatalogRepository catalogRepository;
     Logger logger = Logger.getLogger(getClass().getName());
     Notification notification = message -> logger.info(() -> "Notification: " + message);
 
@@ -40,22 +41,22 @@ public class OrderSharingApplication {
         SpringApplication.run(OrderSharingApplication.class, args);
     }
 
-    @GetMapping("/get-users")
+    @GetMapping("/users")
     public List<User> listUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/get-orders")
+    @GetMapping("/orders")
     public List<IndividualOrder> listIndividualOrders() {
         return individualOrderRepository.findAll();
     }
 
-    @GetMapping("/get-shared-orders")
+    @GetMapping("/shared-orders")
     public List<SharedOrder> listSharedOrders() {
         return sharedOrderRepository.findAll();
     }
 
-    @PostMapping("/get-orders-by-park")
+    @PostMapping("/orders-by-park")
     public List<SharedOrder> listOrdersByPark(@RequestParam(value = "idAgent", defaultValue = HttpError.NOT_SPECIFIED) String idAgent,
             @RequestParam(value = "parkName", defaultValue = HttpError.NOT_SPECIFIED) String parkName) {
         if (parkName.equals(HttpError.NOT_SPECIFIED) || idAgent.equals(HttpError.NOT_SPECIFIED)) {
@@ -107,6 +108,22 @@ public class OrderSharingApplication {
         Product product = new Product(name, priceParsed, parkName);
         productRepository.save(product);
         return ResponseEntity.status(HttpStatus.OK).body("Product " + name + " was added to " + parkName + " park");
+    }
+
+    @PostMapping("/order/place")
+    public ResponseEntity<String> placeOrder(@RequestBody IndividualOrder order) { // RequestBody as JSON here
+        System.out.println(order.getParkName());
+        if(order.getProductList().isEmpty() ||
+                order.getParkName().equals(HttpError.NOT_SPECIFIED) ||
+                order.getAlleyNumber().equals(HttpError.NOT_SPECIFIED) ||
+                order.getTotalPrice() <= 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpError.NOT_SPECIFIED + ". You must have products, parkId, customerName and alleyNumber");
+
+        User customer = userRepository.findByEmail(order.getCustomerEmail()); // Get customer data based on its email
+        if(customer == null || customer.getName() == null) // Customer confirmation
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(HttpError.NOT_FOUND + " for customer");
+
+        return OrderController.placeOrder(customer, order.getParkName(), order, order.getAlleyNumber(), individualOrderRepository, sharedOrderRepository);
     }
 
     @PutMapping("/products/update")
@@ -171,15 +188,19 @@ public class OrderSharingApplication {
         return OrderController.payOrder(order, individualOrder.getTotalPrice(), sharedOrderRepository, notification);
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/orders-by-alley")
     public List<SharedOrder> getOrdersForAlley(@RequestParam(value = "alleyNumber", defaultValue = HttpError.NOT_SPECIFIED) String alleyNumber) {
         if (alleyNumber.equals(HttpError.NOT_SPECIFIED))
             return sharedOrderRepository.findAll();
         return sharedOrderRepository.findByAlleyNumber(alleyNumber);
     }
 
-    @GetMapping("/hello")
-    public String sayHello(@RequestParam(value = "myName", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }       
+    @GetMapping("/catalog")
+    public List<Product> getProductsForCatalog(@RequestParam(value = "qrcode", defaultValue = HttpError.NOT_SPECIFIED) String QRCode) {
+        if (QRCode.equals(HttpError.NOT_SPECIFIED))
+            throw new IllegalArgumentException(HttpError.NOT_SPECIFIED);
+
+        return catalogRepository.findByQRCode(QRCode).getProducts(); // Only returns the products of the given catalog
+    }
+
 }

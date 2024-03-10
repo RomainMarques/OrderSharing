@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "284e0014-8f37-44a8-a19f-0ad153593c96",
+		"_postman_id": "6651a00f-7f98-4889-9367-a5b4e245ae40",
 		"name": "Order Sharing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32421575"
+		"_exporter_id": "31484210"
 	},
 	"item": [
 		{
@@ -47,6 +47,30 @@
 								{
 									"key": "parkName",
 									"value": "A"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get products with QR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/catalog?qrcode=55555",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"catalog"
+							],
+							"query": [
+								{
+									"key": "qrcode",
+									"value": "55555"
 								}
 							]
 						}
@@ -206,6 +230,62 @@
 							"port": "8080",
 							"path": [
 								"get-shared-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerEmail\": \"romain.marques@efrei.net\",\n    \"productList\": [\n            \"ID_TEST_PRODUCT_FRIES\"\n    ],\n    \"totalPrice\": 5,\n    \"parkName\": \"A\",\n    \"alleyNumber\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/order/place",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"place"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place Order / Create New SharedOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerEmail\": \"romain.marques@efrei.net\",\n    \"productList\": [\n            \"ID_TEST_PRODUCT_FRIES\"\n    ],\n    \"totalPrice\": 5,\n    \"parkName\": \"G\",\n    \"alleyNumber\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/order/place",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"order",
+								"place"
 							]
 						}
 					},

@@ -8,7 +8,7 @@ db.parks.insertMany([
 
 db.createCollection('users');
 db.users.insertMany([
-    { "_id": "ID_TEST_USER_JOHN", name: 'John', role: 'customer' },
+    { "_id": "ID_TEST_USER_JOHN", name: 'John', role: 'customer', email: 'romain.marques@efrei.net' },
     { "_id": "ID_TEST_USER_ALICE", name: 'Alice', role: 'agent', park: 'A' }
 ]);
 
@@ -60,3 +60,16 @@ db.alleys.insertMany([
     { "_id": "ID_TEST_ALLEY19", number: 19, QRCode: '1230' },
     { "_id": "ID_TEST_ALLEY20", number: 20, QRCode: '12' },
 ]);
+
+db.createCollection('catalogs');
+db.catalogs.insertOne(
+    {
+        "_id": "ID_CALALOG_A",
+        QRCode: '55555',
+        parkName: 'A',
+        products: [
+            {"$ref": "products", "$id": "ID_TEST_PRODUCT_FRIES"},
+            {"$ref": "products", "$id": "ID_TEST_PRODUCT_COCA"}
+        ]
+    }
+)
