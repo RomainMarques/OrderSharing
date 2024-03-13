@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orderapp
+  template:
+    metadata:
+      labels:
+        app: orderapp
+    spec:
+      containers:
+        - name: orderapp
+          image: antoiner956/order_app:v1
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orderdb
+  template:
+    metadata:
+      labels:
+        app: orderdb
+    spec:
+      containers:
+        - name: orderdb
+          image: antoiner956/orderdb:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 200m
+
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: orderdb
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: root
+#          volumeMounts:
+#            - name: mongodb-data
+#              mountPath: /data/db
+#            - name: mongodb-init-script
+#              mountPath: /docker-entrypoint-initdb.d/init.js
+#              subPath: init.js
+#      volumes:
+#        - name: mongodb-data
+#          persistentVolumeClaim:
+#            claimName: mongodb-data
+#        - name: mongodb-init-script
+#          configMap:
+#            name: mongodb-init-script
